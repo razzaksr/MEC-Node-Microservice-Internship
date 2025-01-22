@@ -1,0 +1,81 @@
+Microservices using NodeJS
+
+Pre-requisite:
+Java script
+
+Node and Express JS:
+
+Web application/ website:
+	Monolithic:
+	https://www.flipkart.com/account/
+	https://www.flipkart.com/viewcart/
+	Eg:
+		Amazon.com:
+			grocery
+			typical>> flash
+			prime
+			pay
+
+	Challenges:
+		Bug tracking
+		Load issue
+		Traffic issue
+
+	Microservice Architecture:
+		loosely coupled>>
+			Amazon.in>> gateway-app>> 8080
+				grocery-app >> 9091
+				typical-app   >> 9092
+				prime-app    >> 9093
+				amazonpay-app 9094
+
+
+Basics Java script:
+	Data types:
+		Number, Object, Array, Boolean, Date
+		string
+	variables:
+		const, var, let
+		static
+			const variable=value>> constant
+		dynamic
+			var variable=value
+			let variable=value
+	operators:
+		arithmetic, relational, logical, unary, ternary, 
+	Functions:
+		function funName(){
+			// fun def
+			// return>> optional
+		}
+
+		// arrow/ fat-arrow
+		const funName = ()=>{
+			// definition
+		}
+
+		array: CRUD
+
+
+Java script:
+	client side with html to perform client side events
+	server side/ standalone: node 
+
+	javac filename.java
+	java filename
+	
+	python filename.py
+
+	node filename.js >> execute
+
+install node js
+
+nodejs.org
+download nodejs and install
+
+to verify:
+open command prompt and type following:
+node --version
+
+
+https://github.com/razzaksr/MEC-Node-Microservice-Internship
