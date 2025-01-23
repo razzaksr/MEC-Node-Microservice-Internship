@@ -79,3 +79,85 @@ node --version
 
 
 https://github.com/razzaksr/MEC-Node-Microservice-Internship
+
+
+
+
+Node JS:
+Server side js code
+
+Full stack
+React JS >> front end >> server
+	pages/UI
+Express JS> back end>> server>> ip/ localhost, port
+	js code
+	accept request via url
+		types:
+			post, get, update, delete
+	connecting db
+
+Mongo DB> JSON/ BSON>> Data end
+
+
+
+pip install numpy
+
+node package manager>> npm
+
+
+npm i express
+
+central repo downloading to your local system
+npmjs.org
+
+node_modules >> physical location of downloaded packages
+
+npm commands:
+start
+init
+run
+deploy
+test
+
+project:
+	npm init	>> terminal interactive mode
+	npm init -y>> name of the project same as opened folder
+
+	package.json: project information
+		{
+			name
+			version
+			type
+			dependency:{}
+			script:{
+				"start":"node filename.js"
+			}
+		}
+
+	npm start
+
+	package-lock.json
+	node_modules
+
+	import numpy as np
+	const identifier require('package')
+	
+	Classname objec = new Classname()
+	
+
+
+	Express based Rest API:
+		results/outcomes not in pages instead in the form of JSON
+
+https://meet.google.com/mfo-eqjd-hks?authuser=4&pli=1
+
+ip/ host>> meet.google.com
+endpoint> mfo-eqjd-hks
+parameters> authuser=4&pli=1
+
+		client: rest client
+			create requests such as post, get, put, delete
+			request:
+				type ip:port/endpoints
+		server: express
+			endpoints with req.type
