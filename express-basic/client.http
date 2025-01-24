@@ -1,0 +1,14 @@
+GET http://localhost:9090/
+###
+GET http://localhost:9090/passing/Sabarinathan
+###
+GET http://localhost:9090/bmi/90/164
+###
+
+POST http://localhost:9090/sub
+Content-Type: application/json
+
+{
+    "weight":90,
+    "height":176
+}
