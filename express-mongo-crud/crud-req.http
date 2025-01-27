@@ -1,0 +1,31 @@
+DELETE http://localhost:9090/67979c6ef43d671c1c572894
+###
+PUT http://localhost:9090/
+Content-Type: application/json
+
+{
+    "_id": "67979bebf43d671c1c57188d",
+    "courseId": "JS001",
+    "courseName": "MERN Microservice",
+    "courseHours": 210,
+    "courseFee": 40000,
+    "courseExpert": "Rasheedha R",
+    "__v": 0
+}
+###
+GET http://localhost:9090/trainer/Razak Mohamed S
+###
+GET http://localhost:9090/67979c6ef43d671c1c572894
+###
+GET http://localhost:9090/
+###
+POST http://localhost:9090/
+Content-Type: application/json
+
+{
+    "courseId":"JAVA022",
+    "courseName":"SpringBoot FSD",
+    "courseHours":170,
+    "courseFee":30000,
+    "courseExpert":"Razak Mohamed S"
+}
