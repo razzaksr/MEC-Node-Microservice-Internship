@@ -161,3 +161,68 @@ parameters> authuser=4&pli=1
 				type ip:port/endpoints
 		server: express
 			endpoints with req.type
+
+
+to auto restart
+nodemon
+package.json
+"start":"node file.js"
+
+"start":"nodemon file.js"
+
+
+client:
+broswer>> get, delete
+rest client>> vs code extension
+
+
+request:
+header>> authorization
+parameter>> url/jdvjb
+body>> url
+
+
+CRUD >> data base
+
+MySQL
+Mongo DB:
+Cluster>> atlas
+Databases>> 
+Collections(Tables)
+Document(row)
+	fields(Column)
+
+insertOne({})
+deleteOne
+find({})
+updateOne
+.
+.
+
+document:
+{
+"key":"value"
+}
+
+
+
+
+MongoDB<<>> Express API(CRUD)<<>> Rest Client
+
+ATLAS		mongoose, express
+			body-parser, nodemon
+
+
+
+case study:
+bank_customer:
+	fullname
+	username
+	password
+	aadhaar
+	pan
+	contact
+	email
+
+
+
