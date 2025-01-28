@@ -213,6 +213,30 @@ ATLAS		mongoose, express
 			body-parser, nodemon
 
 
+Usecase:
+Course: 9090	>> express-mongo-crud
+	default: _id>> primary key
+	user defined fileds>>id, name, hours, fees, expert(String)
+Expert: 6060:	>> express-expert-crud
+	deafult: _id>> primary
+	user defined fields>>id, name, experience, contact, designation
+	read>> expert details also courses offered by experts
+
+Discovery Server: 
+	in order to make communication between service(expert, course)
+	eg: netflix-eureka-server(Spring boot)>> 8761
+		consul 8500
+
+Setting UP Consul:
+	download zip
+	extract
+	consul.exe>> set path
+		search>>env>> edit system environment variables>> environment variable>> second section find variable name "path">> edit>> new >> paste the location of consul.exe folder
+
+cmd:
+consul agent -dev
+
+
 
 case study:
 bank_customer:
@@ -223,6 +247,9 @@ bank_customer:
 	pan
 	contact
 	email
+
+bank_account:
+	accountNumber, accountBalance, customer(String), accountStatus(suspend, active)
 
 
 

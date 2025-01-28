@@ -1,8 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const schema = require('./courseSchema')
-const model = mongoose.model('course',schema)
+const schema = require('./expertSchema')
+const model = mongoose.model('expert',schema)
 
 const app = express()
 app.use(bodyParser.urlencoded({extended:true}))
@@ -12,25 +12,22 @@ app.use(bodyParser.json())
 mongoose.connect('mongodb+srv://razak:mohamed@cluster0.ptmlylq.mongodb.net/mecmicroservice?retryWrites=true&w=majority&appName=Cluster0');
 
 // CRUD
-// create
 app.post('/',async(req,res)=>{
-    // destructure
     const obj = new model({
-        courseId:req.body.courseId,
-        courseName:req.body.courseName,
-        courseHours:req.body.courseHours,
-        courseFee:req.body.courseFee,
-        courseExpert:req.body.courseExpert
+        expertId:req.body.expertId,
+        expertName:req.body.expertName,
+        expertExperience:req.body.expertExperience,
+        expertContact:req.body.expertContact,
+        expertDesignation:req.body.expertDesignation
     })
-
-    const received = await obj.save()
-    res.json(received)
+    const result = await obj.save()
+    res.json(result)
 })
 
 // read
 app.get('/',async(req,res)=>{
-    const courses = await model.find()
-    res.json(courses)
+    const experts = await model.find()
+    res.json(experts)
 })
 
 // read by uniqe field
@@ -40,9 +37,8 @@ app.get('/:unique',async(req,res)=>{
 })
 
 // read by other fields
-app.get('/trainer/:id',async(req,res)=>{
-    // const list = await model.findOne({courseExpert:req.params.name})
-    const list = await model.find({courseExpert:req.params.id})
+app.get('/experience/:exp',async(req,res)=>{
+    const list = await model.find({expertExperience:req.params.exp})
     res.json(list)
 })
 
@@ -58,6 +54,6 @@ app.delete('/:id',async(req,res)=>{
     res.json("Deleted")
 })
 
-app.listen(9090,async()=>{
-    console.log("My express js server running @ 9090!!!")
+app.listen(6060,async()=>{
+    console.log('expert endpoints are ready!!!!!!!!!!')
 })

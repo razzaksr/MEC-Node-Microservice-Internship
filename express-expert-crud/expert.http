@@ -1,0 +1,15 @@
+###
+GET http://localhost:6060/experience/11
+###
+GET http://localhost:6060/
+###
+POST http://localhost:6060/
+Content-Type: application/json
+
+{
+    "expertId":"ZE003",
+    "expertName":"Annamalai S",
+    "expertExperience":7,
+    "expertContact":87762372232,
+    "expertDesignation":"Python Architect"
+}
