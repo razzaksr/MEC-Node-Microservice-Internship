@@ -3,10 +3,34 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const schema = require('./courseSchema')
 const model = mongoose.model('course',schema)
+const Consul = require('consul')
 
 const app = express()
+const serviceKey = "course-service"
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
+const consul = new Consul()
+
+// register course service in consul discovery server
+consul.agent.service.register({
+    id:serviceKey,
+    name:serviceKey,
+    address:"localhost",
+    port:9090
+},
+(err)=>{
+    if(err)
+        throw err;
+    console.log('Course Service successfully registered')
+})
+// deregister from consul discovery server whenever ctrl+c/ interruption happens
+process.on("SIGINT",async()=>{
+    consul.agent.service.deregister(serviceKey,()=>{
+        if(err)
+            throw err
+        console.log("Course service deregistered")
+    })
+})
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://razak:mohamed@cluster0.ptmlylq.mongodb.net/mecmicroservice?retryWrites=true&w=majority&appName=Cluster0');

@@ -3,10 +3,35 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const schema = require('./expertSchema')
 const model = mongoose.model('expert',schema)
+const Consul = require('consul')
+const axios = require('axios')
 
 const app = express()
+const serviceKey = "expert-service"
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
+const consul = new Consul()// object
+
+// register expert service in consul discovery server
+consul.agent.service.register({
+    id:serviceKey,
+    name:serviceKey,
+    address:"localhost",
+    port:6060
+},
+(err)=>{
+    if(err)
+        throw err;
+    console.log('Expert Service successfully registered')
+})
+// deregister from consul discovery server whenever ctrl+c/ interruption happens
+process.on("SIGINT",async()=>{
+    consul.agent.service.deregister(serviceKey,()=>{
+        if(err)
+            throw err
+        console.log("Expert service deregistered")
+    })
+})
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://razak:mohamed@cluster0.ptmlylq.mongodb.net/mecmicroservice?retryWrites=true&w=majority&appName=Cluster0');
@@ -24,10 +49,25 @@ app.post('/',async(req,res)=>{
     res.json(result)
 })
 
-// read
+// read all experts
 app.get('/',async(req,res)=>{
-    const experts = await model.find()
-    res.json(experts)
+    var experts = await model.find()
+    const services = await consul.catalog.service.nodes('course-service')
+    if(services.length==0)
+        throw new Error("Course service not registered in consul")
+    const coursServ = services[0]
+    const updatedExperts = await Promise.all(
+        experts.map(async(each)=>{
+            let expertCourses = []
+            try{
+                const received = await axios.get(`http://${coursServ.Address}:${coursServ.ServicePort}/trainer/${each.expertId}`)
+                expertCourses = received.data
+            }
+            catch(error){return res.json({message:"Error fetching courses"})}
+            return {"expert":each,"courses":expertCourses}
+        })
+    )
+    res.json(updatedExperts)
 })
 
 // read by uniqe field

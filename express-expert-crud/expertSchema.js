@@ -15,7 +15,7 @@ const expertSchema = new mongoose.Schema({
     },
     expertDesignation:{
         type:String
-    }
+    },
 });
 
 module.exports=expertSchema;

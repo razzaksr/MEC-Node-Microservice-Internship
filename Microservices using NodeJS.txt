@@ -236,20 +236,145 @@ Setting UP Consul:
 cmd:
 consul agent -dev
 
+inter-service communication:
+	register services in consul:
+		npm i consul axios
+	
+	expert-service:
+		6060/	>> read experts>> expert details
+				expert's courses read
+
+
+		1. const express = require('express')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const schema = require('./expertSchema')
+const model = mongoose.model('expert',schema)
+const Consul = require('consul')
+const axios = require('axios')
+
+const app = express()
+const serviceKey = "expert-service"
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json())
+const consul = new Consul()// object
+
+// register expert service in consul discovery server
+consul.agent.service.register({
+    id:serviceKey,
+    name:serviceKey,
+    address:"localhost",
+    port:6060
+},
+(err)=>{
+    if(err)
+        throw err;
+    console.log('Expert Service successfully registered')
+})
+// deregister from consul discovery server whenever ctrl+c/ interruption happens
+process.on("SIGINT",async()=>{
+    consul.agent.service.deregister(serviceKey,()=>{
+        if(err)
+            throw err
+        console.log("Expert service deregistered")
+    })
+})
+
+const logicalExpert = (expert,courses) => {
+    return{
+        expert,
+        courses
+    }
+}
+
+// MongoDB connection
+mongoose.connect('mongodb+srv://razak:mohamed@cluster0.ptmlylq.mongodb.net/mecmicroservice?retryWrites=true&w=majority&appName=Cluster0');
+
+// CRUD
+app.post('/',async(req,res)=>{
+    const obj = new model({
+        expertId:req.body.expertId,
+        expertName:req.body.expertName,
+        expertExperience:req.body.expertExperience,
+        expertContact:req.body.expertContact,
+        expertDesignation:req.body.expertDesignation
+    })
+    const result = await obj.save()
+    res.json(result)
+})
+
+// read all experts
+app.get('/',async(req,res)=>{
+    var experts = await model.find()
+    // fetch the courses of the specific expert via consul with axios
+    try{
+        const services = await consul.catalog.service.nodes('course-service')
+        if(services.length==0)
+            throw new Error("Course service not registered in consul")
+        const coursServ = services[0]
+        // console.log(coursServ.Address,coursServ.ServicePort)
+        // contact course service by its address, port and mappings
+        var updatedExperts = []
+        const promises = experts.map(async(each)=>{
+            const received = await axios.get(`http://${coursServ.Address}:${coursServ.ServicePort}/trainer/${each.expertId}`)
+            // console.log(received.data)
+            // logical property unlike physical/ actual
+            const obj = logicalExpert(each,received.data)
+            //console.log(obj)
+            updatedExperts.push(obj)
+            // console.log(updatedExperts.length)
+        })
+        //console.log(experts)
+        await Promise.all(promises)
+    }
+    catch(error){
+        return res.json({message:"Error fetching courses"})
+    }
+    res.json(updatedExperts)
+})
+
+// read by uniqe field
+app.get('/:unique',async(req,res)=>{
+    const fetched = await model.findById(id=req.params.unique)
+    res.json(fetched)
+})
+
+// read by other fields
+app.get('/experience/:exp',async(req,res)=>{
+    const list = await model.find({expertExperience:req.params.exp})
+    res.json(list)
+})
+
+// update
+app.put('/',async(req,res)=>{
+    const result = await model.updateOne({_id:req.body._id},req.body,{upsert:true})
+    res.json(result)
+})
+
+// delete
+app.delete('/:id',async(req,res)=>{
+    await model.findOneAndDelete(id=req.params.id)
+    res.json("Deleted")
+})
+
+app.listen(6060,async()=>{
+    console.log('expert endpoints are ready!!!!!!!!!!')
+})
+
+
+	course-service
+		9090/	>> read all courses
+		9090/trainer/name	>> read specifc trainer's courses
 
 
 case study:
 bank_customer:
-	fullname
-	username
-	password
-	aadhaar
-	pan
-	contact
-	email
-
+	fullname, username, password, aadhaar, pan, contact, email
 bank_account:
 	accountNumber, accountBalance, customer(String), accountStatus(suspend, active)
-
+card
+loan
+deposit
+beneficiary
 
 
