@@ -243,6 +243,9 @@ inter-service communication:
 	expert-service:
 		6060/	>> read experts>> expert details
 				expert's courses read
+	course-service
+		9090/	>> read all courses
+		9090/trainer/name	>> read specifc trainer's courses
 
 Gateway:
 	dependency: express, consul, nodemon, http-proxy-middleware
@@ -250,9 +253,23 @@ Gateway:
 		localhost:5050/expert/ *expert endpoints*
 		localhost:5050/course/ *course endpoint*
 
-		
 
 
+case study:
+bank_customer:
+	fullname, username, password, aadhaar, pan, contact, email
+bank_account:
+	accountNumber, accountBalance, customer(String), accountStatus(suspend, active)
+
+while showing cusotmer details view their respective accounts using inter service communication via consul
+build gateway
+
+
+
+card
+loan
+deposit
+beneficiary
 
 
 
@@ -423,19 +440,6 @@ app.listen(6060,async()=>{
 })
 
 
-	course-service
-		9090/	>> read all courses
-		9090/trainer/name	>> read specifc trainer's courses
 
-
-case study:
-bank_customer:
-	fullname, username, password, aadhaar, pan, contact, email
-bank_account:
-	accountNumber, accountBalance, customer(String), accountStatus(suspend, active)
-card
-loan
-deposit
-beneficiary
 
 
