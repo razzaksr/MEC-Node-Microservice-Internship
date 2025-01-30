@@ -64,6 +64,7 @@ app.get('/',async(req,res)=>{
                 expertCourses = received.data
             }
             catch(error){return res.json({message:"Error fetching courses"})}
+            // building new response json for each expert
             return {"expert":each,"courses":expertCourses}
         })
     )

@@ -244,8 +244,69 @@ inter-service communication:
 		6060/	>> read experts>> expert details
 				expert's courses read
 
+Gateway:
+	dependency: express, consul, nodemon, http-proxy-middleware
+	localhost: 5050 >> 
+		localhost:5050/expert/ *expert endpoints*
+		localhost:5050/course/ *course endpoint*
 
-		1. const express = require('express')
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const schema = require('./expertSchema')
