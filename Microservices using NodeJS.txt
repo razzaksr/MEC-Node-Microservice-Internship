@@ -246,12 +246,41 @@ inter-service communication:
 	course-service
 		9090/	>> read all courses
 		9090/trainer/name	>> read specifc trainer's courses
+	authentication-service: static user details with encrypted password
+		4040/login
+		4040/register
 
 Gateway:
 	dependency: express, consul, nodemon, http-proxy-middleware
 	localhost: 5050 >> 
 		localhost:5050/expert/ *expert endpoints*
 		localhost:5050/course/ *course endpoint*
+
+
+Authorization & Implementing security to our services:
+	only let set of people/ authorized users to be access the endpoints, rest will be unauthorized
+	types:
+		random password
+		in memory auth(user,pass)
+		basic auth(database user credentials)
+		Json web token(jwt) >> token 
+			login first time >> token
+			user can access any endpoint with that token >> athentication(process to check whether token is valid or not)
+
+			token:
+				headers: declare type of token and algorithm
+				payload: user info
+				secret/signature: static secret key for all users and implementation of generating token 
+									with specified alogorithm and verification
+			
+			Two operations: base64 for secret key
+			visit base64encode.org>> type "nodemicroserviceinternship" then select utf-8 and windows>> encode>> bm9kZW1pY3Jvc2VydmljZWludGVybnNoaXA=
+				token generation:
+					authentication-service >> user details service, login, register
+					username, password >> login >> token 
+				token verification:
+					gateway: receive the token with request header, forward to the respective service
+					any-service except authentication-service need to be verify the token, then supply the resources
 
 
 

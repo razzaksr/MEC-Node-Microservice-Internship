@@ -2,3 +2,4 @@ express-basic/node_modules
 express-mongo-crud/node_modules
 express-expert-crud/node_modules
 express-gateway/node_modules
+express-authentication-crud/node_modules

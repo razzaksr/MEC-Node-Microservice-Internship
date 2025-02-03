@@ -49,6 +49,21 @@ app.use('/course',async(req,res,next)=>{
         res.send({error:error.message})
     }
 })
+// middleware to call to identify if the user requested for authentication service
+app.use('/auth',async(req,res,next)=>{
+    try{
+        // fetching authentication url, port using fetching function
+    const authenticationDetails = await fetchingService('authentication-service')
+    // forwarding to authentication service
+    createProxyMiddleware({
+        target:authenticationDetails,
+        changeOrigin:true
+    })(req,res,next)
+    }
+    catch(error){
+        res.send({error:error.message})
+    }
+})
 
 app.listen(5050,()=>{
     console.log("Api gateway running 5050!!!!")
