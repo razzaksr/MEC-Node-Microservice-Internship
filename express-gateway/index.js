@@ -19,8 +19,18 @@ const fetchingService=async(requestedService)=>{
     }
 }
 
+// middleware to forwarding token to the respective service
+const authForward = (req,res,next)=>{
+    const header = req.header['authorization']
+    if(header){
+        req.headers['authorization']=header
+        // create an new header with same value for forwarding to the service
+    }
+    next()// forwarding invoked
+}
+
 // middleware to call to identify if the user requested for expert service
-app.use('/expert',async(req,res,next)=>{
+app.use('/expert',authForward,async(req,res,next)=>{
     try{
         // fetching expert url, port using fetching function
     const expertDetails = await fetchingService('expert-service')
@@ -35,7 +45,7 @@ app.use('/expert',async(req,res,next)=>{
     }
 })
 // middleware to call to identify if the user requested for course service
-app.use('/course',async(req,res,next)=>{
+app.use('/course',authForward,async(req,res,next)=>{
     try{
         // fetching course url, port using fetching function
     const courseDetails = await fetchingService('course-service')

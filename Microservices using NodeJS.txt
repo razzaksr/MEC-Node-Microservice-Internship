@@ -278,9 +278,15 @@ Authorization & Implementing security to our services:
 				token generation:
 					authentication-service >> user details service, login, register
 					username, password >> login >> token 
-				token verification:
+				token verification: securing all endpoints 
 					gateway: receive the token with request header, forward to the respective service
 					any-service except authentication-service need to be verify the token, then supply the resources
+					eg:
+						http://localhost:5050/course/		>> view all courses
+						authorization: Bearer jwt_token
+
+						http://localhost:5050/auth/			>> authorization end point doesn't require token
+
 
 
 
@@ -295,13 +301,27 @@ build gateway
 
 
 
-card
-loan
-deposit
-beneficiary
+card(cardNumber, cvv, expiry, status, rootAccount)
+loan(loanId, rootCustomer, loanAmount, loanEmi)
+deposit(deposit, depositAmount, rootCustomer, depositMaturity)
+beneficiary(rootAccount, receiverAccount, receiverName)
+insurance(insuranceId, rootCustomer, insuranceCoverage, insurancePremium)
+transaction(transactionId, transactionDate, transactionFrom, transactionTo)
 
 
 
+
+Capstone/ use case for interns:
+1. Vetri				>> Customer, Account, Beneficiary(add, remove, update, read)
+2. Dharun				>> Customer, Account, Card(add, remove, update, read)
+3. Selvarasan			>> Customer, Loan(add, remove, update, read)
+4. Viswak				>> Customer, Deposit(add, remove, update, delete)
+5. Mouleeswaran			>> Customer, Insurance(add, remove, update, delete)
+6. Sumanth				>> Customer, Account, Transaction(add, remove, update, read)
+7. Shamanthi			>> 
+8. Kavya				>> 
+9. Mathi				>> 
+10. Rohini				>> 
 
 
 
