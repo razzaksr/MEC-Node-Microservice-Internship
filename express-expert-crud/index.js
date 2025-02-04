@@ -92,7 +92,11 @@ app.get('/',authenticateToken,async(req,res)=>{
             let expertCourses = []
             try{
                 // calling course endpoint with building header
-                const received = await axios.get(`http://${coursServ.Address}:${coursServ.ServicePort}/trainer/${each.expertId}`,authForward)
+                const received = await axios.get(`http://${coursServ.Address}:${coursServ.ServicePort}/trainer/${each.expertId}`,{
+                    headers:{
+                        'authorization':`Bearer ${token}`
+                    }
+                })
                 expertCourses = received.data
             }
             catch(error){return res.json({message:"Error fetching courses"})}
